@@ -48,46 +48,51 @@ const questions = [
 
 inquirer
 .prompt(questions).then((data) => {
-    console.log(JSON.stringify(data))
-    const fileName = `${data.name.split(" ").join("-")}.md`;
-    
-    writeToFile(fileName, data)
+    // function call to initialize program
+    init(data);
 })
 
 // function to write README file
 function writeToFile(fileName, data) {
-    const template = `
-    #${data.name}
+    const template = `# ${data.name}
+    ## Table of Contents
     
-    ![gihub profile](https://www.github.com/${data.github}
-    ![email](${data.email})
+    ## License Type
+    This project was created under the ${data.license} license.
     
-    #Description
+    ## Description
     ${data.description}    
     
-    #Installation
+    ## Installation
+    A user can install this package using the following command:
+    
     ${data.installation}
     
-    #Contributors
+    
+    ## Contributors
     ${data.contribution}
     
-    #Test Instructions
+    ## Test Instructions
+    A user can test this package using the following command:
+    
     ${data.test}
     
-    #License Type
-    ${data.license}`;
+
+    ## Contact Me
+    You can check out my GitHub profile at (https://www.github.com/${data.github} or email me at ${data.email}.
+    `;
     
+        
+        fs.writeFile(fileName, template, (err) => {
+            err ? console.log(err) : console.log("Success!")
+        });
+        
+    }
     
-    fs.writeFile(fileName, template, (err) => {
-        err ? console.log(err) : console.log("Success!")
-    });
-    
+    // function to initialize program
+    function init(data) {
+    const fileName = `${data.name.split(" ").join("-")}.md`;
+    writeToFile(fileName, data)
 }
 
-// function to initialize program
-function init() {
 
-}
-
-// function call to initialize program
-init();
