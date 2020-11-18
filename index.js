@@ -50,18 +50,37 @@ inquirer
 .prompt(questions).then((data) => {
     console.log(JSON.stringify(data))
     const fileName = `${data.name.split(" ").join("-")}.md`;
+    
     writeToFile(fileName, data)
 })
 
 // function to write README file
 function writeToFile(fileName, data) {
-    fs.appendFile("template.md", "data", (err) => {
-        err ? console.log(err) : console.log("Success!")
-    })
-    fs.rename("template.md", fileName, (data) => {
-        console.log("Renamed file successfully");
-    });
+    const template = `
+    #${data.name}
     
+    ![gihub profile](https://www.github.com/${data.github}
+    ![email](${data.email})
+    
+    #Description
+    ${data.description}    
+    
+    #Installation
+    ${data.installation}
+    
+    #Contributors
+    ${data.contribution}
+    
+    #Test Instructions
+    ${data.test}
+    
+    #License Type
+    ${data.license}`;
+    
+    
+    fs.writeFile(fileName, template, (err) => {
+        err ? console.log(err) : console.log("Success!")
+    });
     
 }
 
