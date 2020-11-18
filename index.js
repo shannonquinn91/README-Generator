@@ -50,12 +50,19 @@ inquirer
 .prompt(questions).then((data) => {
     console.log(JSON.stringify(data))
     const fileName = `${data.name.split(" ").join("-")}.md`;
-    console.log(fileName)
+    writeToFile(fileName, data)
 })
 
 // function to write README file
 function writeToFile(fileName, data) {
-    //err ? console.log(err) : console.log("Success!")
+    fs.appendFile("template.md", "data", (err) => {
+        err ? console.log(err) : console.log("Success!")
+    })
+    fs.rename("template.md", fileName, (data) => {
+        console.log("Renamed file successfully");
+    });
+    
+    
 }
 
 // function to initialize program
