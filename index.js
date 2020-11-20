@@ -1,7 +1,9 @@
-import inquirer from "inquirer";
-import fs from "fs";
+const inquirer = require("inquirer")
+const fs = require("fs")
+const generateMarkdown = require("./utils/generateMarkdown.js")
 
 // array of questions for user
+
 const questions = [
   {
       type: "input",
@@ -32,7 +34,7 @@ const questions = [
       type: "list",
       name: "license",
       message: "What license was this project created under?",
-      choices: ["Apache 2.0", "Boost 1.0", "MIT", "MPL 2.0"]
+      choices: ["ISC", "ODbL", "MIT",]
   },
   {
       type: "input",
@@ -46,53 +48,22 @@ const questions = [
   }
 ];
 
-inquirer
-.prompt(questions).then((data) => {
-    // function call to initialize program
-    init(data);
-})
 
 // function to write README file
 function writeToFile(fileName, data) {
-    const template = `# ${data.name}
-    ## Table of Contents
-    
-    ## License Type
-    This project was created under the ${data.license} license.
-    
-    ## Description
-    ${data.description}    
-    
-    ## Installation
-    A user can install this package using the following command:
-    
-    ${data.installation}
-    
-    
-    ## Contributors
-    ${data.contribution}
-    
-    ## Test Instructions
-    A user can test this package using the following command:
-    
-    ${data.test}
-    
-
-    ## Contact Me
-    You can check out my GitHub profile at (https://www.github.com/${data.github} or email me at ${data.email}.
-    `;
-    
-        
-        fs.writeFile(fileName, template, (err) => {
-            err ? console.log(err) : console.log("Success!")
-        });
-        
-    }
-    
-    // function to initialize program
-    function init(data) {
-    const fileName = `${data.name.split(" ").join("-")}.md`;
-    writeToFile(fileName, data)
+    //const fileName = `${data.name.split(" ").join("-")}.md`;
+    return fs.writeFile(fileName, generateMarkdown(data), (err) => {
+        err ? console.log(err) : console.log("Success!")
+    });   
 }
 
+// function to initialize program
+function init() {
+    inquirer.prompt(questions).then((data) => {
+        writeToFile("generatedMD.md", generateMarkdown({...data}))
+    })
+}
+
+// function call to initialize program
+init();
 
