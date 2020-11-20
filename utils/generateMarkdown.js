@@ -1,5 +1,6 @@
 // function to generate markdown for README
 function generateMarkdown(data) {
+  //console.log(data)
   return `# ${data.name}
     ## Table of Contents
     [License Type](#license-type)
@@ -37,4 +38,6 @@ function generateMarkdown(data) {
 
 }
 
-module.exports = generateMarkdown(data);
+
+
+module.exports = generateMarkdown();
